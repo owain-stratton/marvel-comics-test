@@ -9,7 +9,14 @@ var publicKey = '241328638ad6321eb015fa420ebb26ec',
     hash = CryptoJS.MD5(ts + privateKey + publicKey).toString(),
     characterID = '1009718'; //Wolverine
 
-var charModel = backbone.Model.extend({});
+var charModel = backbone.Model.extend({
+  defaults: {
+    charImg: '',
+    charName: '',
+    charDesc: '',
+    attrText: ''
+  }
+});
 
 var charCollection = backbone.Collection.extend({
   model: charModel,
@@ -28,40 +35,48 @@ character.fetch({
   }
 });
 
-function createCharObject(charImg, charName, charDesc, attrText) {
-  this.charImg = charImg;
-  this.charName = charName;
-  this.charDesc = charDesc;
-  this.attrText = attrText;
-}
+// function createCharObject(charImg, charName, charDesc, attrText) {
+//   this.charImg = charImg;
+//   this.charName = charName;
+//   this.charDesc = charDesc;
+//   this.attrText = attrText;
+// }
 
 var getCharInfo = function(data){
+
+
   var results = data.data.results[0];
-  var characterObject = new createCharObject(makeThumbnailPath(results), results.name, results.description, data.attributionHTML);
-  
-  var html = '<div class="attrText">' + characterObject.attrText + '</div>';
-      html += '<div class="characterWrapper">';
-      html += '<img class="charImg" src=' + characterObject.charImg + ' alt=' + characterObject.charName + '/>';
-      html += '<h1>' + characterObject.charName + '</h1>';
-      html += '<h4>' + characterObject.charDesc + '</h4>';
-      html += '</div>';
-      html += '<h4>Comics List:</h4>';
-  
-  printHTML(html); 
+  var character = new charModel({
+    charImg: makeThumbnailPath(results),
+    charName: results.name,
+    charDesc: results.description,
+    attrText: data.attributionHTML
+  })
+  // var characterObject = new createCharObject(makeThumbnailPath(results), results.name, results.description, data.attributionHTML);
+  //
+  // var html = '<div class="attrText">' + characterObject.attrText + '</div>';
+  //     html += '<div class="characterWrapper">';
+  //     html += '<img class="charImg" src=' + characterObject.charImg + ' alt=' + characterObject.charName + '/>';
+  //     html += '<h1>' + characterObject.charName + '</h1>';
+  //     html += '<h4>' + characterObject.charDesc + '</h4>';
+  //     html += '</div>';
+  //     html += '<h4>Comics List:</h4>';
+  //
+  // printHTML(html);
   getComicCollection(results);
 }
 
 function getComicCollection(results) {
   var comicURI = results.comics.collectionURI;
   var comicModel = backbone.Model.extend({});
-  
+
   var comicCollection = backbone.Collection.extend({
     model: comicModel,
     url: comicURI + '?apikey=' + publicKey
   });
-  
+
   var comicList = new comicCollection();
-  
+
   //GET request to Marvel API for the comics with Wolverine
   comicList.fetch({
     ts: ts,
@@ -76,13 +91,13 @@ function getComicCollection(results) {
 function getComics(results) {
   _.each(results.data.results, function(i) {
     var comicImgPath = makeThumbnailPath(i);
-  
-    var html = '<div class="comics">'; 
+
+    var html = '<div class="comics">';
         html += '<img src=' + comicImgPath + ' alt=' + i.title + '/>';
         html += '<h2>' + i.title + '</h2>';
-        html += '<p>' + i.description + '</p>';  
+        html += '<p>' + i.description + '</p>';
         html += '</div>'
-    
+
     printHTML(html);
   });
 }
