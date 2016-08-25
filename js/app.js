@@ -15,23 +15,27 @@ var charModel = backbone.Model.extend({
     charName: '',
     charDesc: '',
     attrText: ''
-  }
-});
-
-var charCollection = backbone.Collection.extend({
-  model: charModel,
+  },
   url: 'http://gateway.marvel.com:80/v1/public/characters/' + characterID + '?apikey=' + publicKey
 });
 
-var character = new charCollection();
+var wolverineModel = new charModel();
 
 //GET request to Marvel API for Wolverine character
-character.fetch({
+wolverineModel.fetch({
   ts: ts,
   hash: hash,
-  success: function(data_array) {
-    var data = data_array.models[0].attributes;
-    getCharInfo(data);
+  success: function(model, response) {
+    var results = response.data.results[0];
+    wolverineModel.set({
+      charImg: makeThumbnailPath(results),
+      charName: results.name,
+      charDesc: results.description,
+      attrText: results.attributionHTML
+    });
+  },
+  error: function(model, reponse) {
+    console.log(response);
   }
 });
 
@@ -41,30 +45,9 @@ character.fetch({
 //   this.charDesc = charDesc;
 //   this.attrText = attrText;
 // }
+console.log(wolverineModel);
 
-var getCharInfo = function(data){
 
-
-  var results = data.data.results[0];
-  var character = new charModel({
-    charImg: makeThumbnailPath(results),
-    charName: results.name,
-    charDesc: results.description,
-    attrText: data.attributionHTML
-  })
-  // var characterObject = new createCharObject(makeThumbnailPath(results), results.name, results.description, data.attributionHTML);
-  //
-  // var html = '<div class="attrText">' + characterObject.attrText + '</div>';
-  //     html += '<div class="characterWrapper">';
-  //     html += '<img class="charImg" src=' + characterObject.charImg + ' alt=' + characterObject.charName + '/>';
-  //     html += '<h1>' + characterObject.charName + '</h1>';
-  //     html += '<h4>' + characterObject.charDesc + '</h4>';
-  //     html += '</div>';
-  //     html += '<h4>Comics List:</h4>';
-  //
-  // printHTML(html);
-  getComicCollection(results);
-}
 
 function getComicCollection(results) {
   var comicURI = results.comics.collectionURI;
