@@ -21,6 +21,32 @@ var charModel = backbone.Model.extend({
 
 var wolverineModel = new charModel();
 
+var characterView = backbone.View.extend({
+  el: '#characterWrapper',
+  template: _.template($('#characterTemplate').html()),
+  render: function() {
+    this.$el.html(this.template(this.model.attributes));
+    return this;
+  }
+});
+
+var attributionView = backbone.View.extend({
+  el: '#attributionWrapper',
+  template: _.template($('#attributionTemplate').html()),
+  render: function() {
+    this.$el.html(this.template(this.model.attributes));
+    return this;
+  }
+})
+
+var character = new characterView({
+  model: wolverineModel
+});
+
+var attribution = new attributionView({
+  model: wolverineModel
+});
+
 //GET request to Marvel API for Wolverine character
 wolverineModel.fetch({
   ts: ts,
@@ -30,24 +56,22 @@ wolverineModel.fetch({
     wolverineModel.set({
       charImg: makeThumbnailPath(results),
       charName: results.name,
-      charDesc: results.description,
-      attrText: results.attributionHTML
+      charDesc: results.description
     });
+    character.render();
+    attribution.render();
   },
   error: function(model, reponse) {
     console.log(response);
   }
 });
-
-// function createCharObject(charImg, charName, charDesc, attrText) {
-//   this.charImg = charImg;
-//   this.charName = charName;
-//   this.charDesc = charDesc;
-//   this.attrText = attrText;
-// }
 console.log(wolverineModel);
 
 
+
+function characterTemplate() {
+  return
+}
 
 function getComicCollection(results) {
   var comicURI = results.comics.collectionURI;

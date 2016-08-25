@@ -7,7 +7,7 @@ body {
     width: 100%;
     max-width: 956px;
     margin: 0 auto;
-    & .characterWrapper {
+    & #characterWrapper {
       text-align: center;
     }
     & img.charImg {
@@ -27,7 +27,7 @@ body {
       font-size: 1.6em;
       margin-bottom: 22px;
     }
-    & .attrText {
+    & #attributionWrapper {
       position: fixed;
       top: 0;
       left: 0;

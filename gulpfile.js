@@ -25,4 +25,4 @@ gulp.task('watchFiles', function() {
   gulp.watch('js/app.js', ['browserify']);
 });
 
-gulp.task('serve', ['watchFiles']);
+gulp.task('serve', ['watchFiles', 'browserify', 'compileSass']);

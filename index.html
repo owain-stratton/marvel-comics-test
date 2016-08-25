@@ -4,18 +4,34 @@
 <title>Owain Stratton | Marvel Comics Test</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
 <!-- SEO meta tags -->
 <meta name="description" content="My HTML page for 'The Comics Test' for UI Developer position at Promote Int in Stockholm, Sweden">
 <meta name="author" content="Owain Stratton">
 
-<link href='https://fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>    
+<link href='https://fonts.googleapis.com/css?family=Carrois+Gothic' rel='stylesheet' type='text/css'>
 <link href="css/application.css" rel="stylesheet" type="text/css">
 </head>
 <body>
- 
-  <div id="container"></div>
-  
-<script src="js/bundle.js"></script>      
+
+  <div id="container">
+    <div id="attributionWrapper">
+    </div>
+    <div id="characterWrapper">
+    </div>
+    <h4>Comics List:</h4>
+  </div>
+
+<script type="text/template" id="attributionTemplate">
+  <a href="http://marvel.com"><%=attributionText%></a>
+</script>
+
+<script type="text/template" id="characterTemplate">
+  <img class="charImg" src=<%= charImg %> alt=<%= charName %> />
+  <h1><%=charName%></h1>
+  <h4><%=charDesc%></h4>
+</script>
+
+<script src="js/bundle.js"></script>
 </body>
 </html>

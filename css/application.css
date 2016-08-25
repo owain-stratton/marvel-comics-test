@@ -7,7 +7,7 @@ body {
     width: 100%;
     max-width: 956px;
     margin: 0 auto; }
-    body #container .characterWrapper {
+    body #container #characterWrapper {
       text-align: center; }
     body #container img.charImg {
       border-radius: 50%;
@@ -22,7 +22,7 @@ body {
     body #container h4 {
       font-size: 1.6em;
       margin-bottom: 22px; }
-    body #container .attrText {
+    body #container #attributionWrapper {
       position: fixed;
       top: 0;
       left: 0;
@@ -31,7 +31,7 @@ body {
       text-align: center;
       background-color: #f0141e;
       width: 100%; }
-      body #container .attrText a {
+      body #container #attributionWrapper a {
         color: #fff;
         text-decoration: none;
         font-size: 1.1em; }
